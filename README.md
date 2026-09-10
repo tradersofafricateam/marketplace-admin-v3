@@ -44,7 +44,9 @@ The authentication flow follows the marketplace frontend conventions:
 3. Axios attaches the token as a Bearer authorization header.
 4. `GET /admin/auth/me` validates the session and retrieves the current administrator.
 5. Zustand stores `currentAdmin` and the authentication initialization state.
-6. Protected admin routes redirect unauthenticated visitors to `/login`.
+6. The route guard can redirect unauthenticated visitors to `/login` when enabled.
+
+> Development note: the admin route guard is currently disabled in `src/app/(admin)/layout.tsx`, allowing direct access to dashboard and module pages while super-admin credentials are unavailable. Re-enable `AdminAuthGuard` before deployment.
 
 Selecting “Remember me” gives the cookie a 30-day lifetime; otherwise it remains a browser-session cookie. Password recovery screens are available at `/forgot-password` and `/reset-password`.
 
