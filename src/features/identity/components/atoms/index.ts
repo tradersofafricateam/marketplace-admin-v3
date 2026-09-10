@@ -1,2 +1,1 @@
-/** Feature-specific indivisible UI primitives. */
-export {};
+export { AdminStatusBadge } from "./AdminStatusBadge";
