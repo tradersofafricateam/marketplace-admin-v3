@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { QueryError } from "@/components/organisms/QueryError";
+import { AdminUsersPageSkeleton } from "../AdminUsersPageSkeleton";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -12,8 +14,7 @@ import {
   UserX,
 } from "lucide-react";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
-import { mockAdmins } from "../../../constants";
-import { useAdminRoles, useAdminUsers, useUpdateAdmin } from "../../../hooks";
+import { useAdminRoles, useAdminUsers } from "../../../hooks";
 import type {
   AdminAccount,
   AdminAccountStatus,
@@ -21,6 +22,7 @@ import type {
 } from "../../../types";
 import { AdminPagination, AdminSummaryCard } from "../../molecules";
 import {
+  AdminStatusModal,
   AdminUsersTable,
   AdminUsersTableSkeleton,
   CreateAdminModal,
@@ -34,7 +36,8 @@ export function AdminUsersPage() {
   const [adminBeingEdited, setAdminBeingEdited] = useState<AdminAccount | null>(
     null,
   );
-  const updateAdmin = useUpdateAdmin();
+  const [adminStatusTarget, setAdminStatusTarget] =
+    useState<AdminAccount | null>(null);
   const query: AdminUsersQuery = {
     search: searchParams.get("search") ?? "",
     status: (searchParams.get("status") ?? "") as AdminAccountStatus | "",
@@ -46,6 +49,8 @@ export function AdminUsersPage() {
   };
   const admins = useAdminUsers(query);
   const roles = useAdminRoles();
+  const activeAdmins = useAdminUsers({ search: "", status: "active", roleId: "", page: 1, limit: 1 });
+  const inactiveAdmins = useAdminUsers({ search: "", status: "inactive", roleId: "", page: 1, limit: 1 });
 
   function updateQuery(updates: Record<string, string | number>) {
     const next = new URLSearchParams(searchParams.toString());
@@ -55,10 +60,16 @@ export function AdminUsersPage() {
     router.push(`/admin-users?${next.toString()}`);
   }
 
-  const active = mockAdmins.filter((admin) => admin.status === "active").length;
-  const inactive = mockAdmins.filter(
-    (admin) => admin.status === "inactive",
-  ).length;
+  const queries = [admins, roles, activeAdmins, inactiveAdmins];
+  if (queries.some((request) => request.isPending)) return <AdminUsersPageSkeleton />;
+  if (queries.some((request) => request.isError)) {
+    return <QueryError resource="admin accounts" onRetry={() => {
+      queries.forEach((request) => { void request.refetch(); });
+    }} />;
+  }
+
+  const active = activeAdmins.data?.pagination.total ?? 0;
+  const inactive = inactiveAdmins.data?.pagination.total ?? 0;
 
   return (
     <div className="space-y-7">
@@ -79,7 +90,7 @@ export function AdminUsersPage() {
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <AdminSummaryCard
           label="Total administrators"
-          value={mockAdmins.length}
+          value={admins.data?.pagination.total ?? 0}
           icon={Users}
           accent="bg-sky-50 text-sky-700"
         />
@@ -172,12 +183,7 @@ export function AdminUsersPage() {
           <AdminUsersTable
             admins={admins.data?.data ?? []}
             onEditRole={setAdminBeingEdited}
-            onToggleStatus={(admin) =>
-              updateAdmin.mutate({
-                adminId: admin.id,
-                status: admin.status === "active" ? "inactive" : "active",
-              })
-            }
+            onToggleStatus={setAdminStatusTarget}
           />
         )}
         <AdminPagination
@@ -200,6 +206,10 @@ export function AdminUsersPage() {
       <EditAdminRoleModal
         admin={adminBeingEdited}
         onClose={() => setAdminBeingEdited(null)}
+      />
+      <AdminStatusModal
+        admin={adminStatusTarget}
+        onClose={() => setAdminStatusTarget(null)}
       />
     </div>
   );

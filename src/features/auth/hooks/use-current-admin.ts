@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentAdmin } from "../api";
 import { ADMIN_AUTH_COOKIE } from "../constants";
+import { clearAdminAuthToken } from "../helpers/session";
 import { AUTH_COOKIE_CHANGE_EVENT, readCookie } from "@/lib/helpers/cookie";
 import { useAuthStore } from "@/store/auth-store";
 
@@ -32,6 +33,7 @@ export function useCurrentAdmin() {
       return;
     }
     if (query.isError) {
+      clearAdminAuthToken();
       clearCurrentAdmin();
       setIsAuthInitialized(true);
       return;
