@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginAdmin } from "../api";
 import { getLoginErrorMessage } from "../helpers";
 import { setAdminAuthToken } from "../helpers/session";
@@ -10,12 +10,15 @@ import { useAuthStore } from "@/store/auth-store";
 
 export function useAdminLogin() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const setCurrentAdmin = useAuthStore((state) => state.setCurrentAdmin);
   const mutation = useMutation({
     mutationFn: ({ email, password }: AdminLoginFormValues) => loginAdmin({ email: email.trim(), password }),
     onSuccess: (data, values) => {
       setAdminAuthToken(data.token, values.rememberMe);
       setCurrentAdmin(data.admin);
+      queryClient.setQueryData(["currentAdmin"], data.admin);
+      void queryClient.invalidateQueries({ queryKey: ["currentAdmin"] });
       router.replace("/dashboard");
     },
   });

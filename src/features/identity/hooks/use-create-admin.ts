@@ -10,7 +10,7 @@ export function useCreateAdmin() {
   return useMutation({
     mutationFn: async (payload: CreateAdminPayload) => {
       if (!USE_ADMIN_USERS_MOCK) return createAdminUser(payload);
-      const admin = { ...payload, id: `admin_${Date.now()}`, status: "pending" as const, isSuperAdmin: false, role: mockRoles.find((role) => role.id === payload.roleId) ?? mockRoles[0], lastLoginAt: null, createdAt: new Date().toISOString() };
+      const admin = { ...payload, id: `admin_${Date.now()}`, status: "pending" as const, isSuperAdmin: false, role: mockRoles.find((role) => role.id === payload.roleId) ?? mockRoles[0], permissions: [], lastLoginAt: null, createdAt: new Date().toISOString() };
       mockAdmins.unshift(admin);
       return { success: true, message: "Admin account created successfully. An invitation has been sent to the Admin.", data: admin };
     },
