@@ -207,11 +207,11 @@ const sellerApplications = [
 ] as const;
 
 export const mockSellerVerifications: SellerVerificationDetail[] = sellerApplications.map(
-  ([verificationId, userId, storeName, companyName, registrationNumber, businessType, yearsOfBusiness, companyAddress, pickupAddress, companyBio, country, status], index) => ({
-    verificationId,
+  ([verificationId, userId, , companyName, registrationNumber, businessType, yearsOfBusiness, companyAddress, pickupAddress, companyBio, country, status], index) => ({
+    id: verificationId,
     userId,
-    status,
-    storeName,
+    verificationStatus: status,
+    user: null,
     companyName,
     registrationNumber,
     businessType,
@@ -230,9 +230,13 @@ export const mockSellerVerifications: SellerVerificationDetail[] = sellerApplica
 
 export const mockSellerVerificationSummaries = (): SellerVerificationSummary[] =>
   mockSellerVerifications.map((verification) => ({
-    verificationId: verification.verificationId!,
+    id: verification.id,
     companyName: verification.companyName,
-    userId: verification.userId!,
+    userId: verification.userId,
     submittedAt: verification.submittedAt,
-    status: verification.status,
+    verificationStatus: verification.verificationStatus,
+    registrationNumber: verification.registrationNumber,
+    businessType: verification.businessType,
+    country: verification.country,
+    user: null,
   }));

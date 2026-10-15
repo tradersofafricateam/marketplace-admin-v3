@@ -9,7 +9,7 @@ export function useSellerVerification(verificationId: string) {
     queryKey: ["seller-verification", verificationId],
     queryFn: async () =>
       USE_ADMIN_USERS_MOCK
-        ? (mockSellerVerifications.find((verification) => verification.verificationId === verificationId) ?? null)
+        ? (mockSellerVerifications.find((verification) => verification.id === verificationId) ?? null)
         : getSellerVerification(verificationId),
   });
 }

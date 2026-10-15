@@ -161,7 +161,7 @@ export async function getSellerVerifications(query: SellerVerificationsQuery) {
 }
 
 export async function getSellerVerification(verificationId: string) {
-  const { data } = await apiClient.get<{ success: boolean; data: SellerVerificationDetail } | SellerVerificationDetail>(
+  const { data } = await apiClient.get<{ data: SellerVerificationDetail } | SellerVerificationDetail>(
     `${SELLER_VERIFICATIONS_ENDPOINT}/${verificationId}`,
   );
   return "data" in data ? data.data : data;

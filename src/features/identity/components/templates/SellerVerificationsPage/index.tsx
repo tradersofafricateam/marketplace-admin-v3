@@ -56,11 +56,11 @@ export function SellerVerificationsPage() {
         ) : (
           <SellerVerificationsTable verifications={verifications.data?.data ?? []} />
         )}
-        <AdminPagination
-          pagination={verifications.data?.pagination ?? { page: query.page, limit: query.limit, total: 0, totalPages: 1 }}
+        {verifications.isSuccess && <AdminPagination
+          pagination={verifications.data.meta}
           onPageChange={(page) => updateQuery({ page })}
           onLimitChange={(limit) => updateQuery({ limit, page: 1 })}
-        />
+        />}
       </section>
     </div>
   );

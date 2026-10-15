@@ -12,9 +12,9 @@ export function useRejectSeller() {
   return useMutation({
     mutationFn: async ({ verificationId, payload }: { verificationId: string; payload: RejectSellerPayload }) => {
       if (!USE_ADMIN_USERS_MOCK) return rejectSeller(verificationId, payload);
-      const verification = mockSellerVerifications.find((item) => item.verificationId === verificationId);
+      const verification = mockSellerVerifications.find((item) => item.id === verificationId);
       if (!verification) throw new Error("Verification not found");
-      verification.status = "rejected";
+      verification.verificationStatus = "rejected";
       verification.reviewedAt = new Date().toISOString();
       verification.reviewedBy = "admin_super";
       verification.rejectionReason = payload.reason;

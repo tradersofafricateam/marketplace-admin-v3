@@ -1,2 +1,1 @@
-/** Public exports for subscriptions feature components belong here. */
-export {};
+export { SubscriptionPlansPage, PlansSkeleton } from "./templates";
