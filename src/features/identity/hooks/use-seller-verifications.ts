@@ -11,13 +11,12 @@ export function useSellerVerifications(query: SellerVerificationsQuery) {
     queryFn: async () => {
       if (!USE_ADMIN_USERS_MOCK) return getSellerVerifications(query);
       const filtered = mockSellerVerificationSummaries().filter(
-        (verification) => !query.status || verification.status === query.status,
+        (verification) => !query.status || verification.verificationStatus === query.status,
       );
       const start = (query.page - 1) * query.limit;
       return {
-        success: true,
         data: filtered.slice(start, start + query.limit),
-        pagination: {
+        meta: {
           page: query.page,
           limit: query.limit,
           total: filtered.length,

@@ -7,7 +7,7 @@ export function SellerVerificationsTableSkeleton({ rows = 6 }: { rows?: number }
       <Table>
         <TableHeader>
           <TableRow>
-            {["Company", "Applicant", "Submitted", "Status", ""].map((heading) => (
+            {["Company", "Applicant", "Business type", "Country", "Submitted", "Status", ""].map((heading) => (
               <TableHead key={heading}>{heading}</TableHead>
             ))}
           </TableRow>
@@ -17,6 +17,12 @@ export function SellerVerificationsTableSkeleton({ rows = 6 }: { rows?: number }
             <TableRow key={index} className="hover:bg-transparent">
               <TableCell>
                 <Skeleton className="h-4 w-40" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-24" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-24" />
               </TableCell>
               <TableCell>
                 <Skeleton className="h-4 w-24" />

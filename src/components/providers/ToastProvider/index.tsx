@@ -14,7 +14,20 @@ export function ToastProvider() {
     window.addEventListener(APP_TOAST_EVENT, handleToast);
     return () => window.removeEventListener(APP_TOAST_EVENT, handleToast);
   }, []);
+
   if (!toast) return null;
   const Icon = toast.tone === "error" ? XCircle : CheckCircle2;
-  return <div role="status" className="fixed right-5 top-5 z-[70] flex max-w-sm items-center gap-3 rounded-2xl border border-sky-100 bg-white px-4 py-3 text-sm font-semibold text-navy-deep shadow-2xl"><Icon size={19} className={toast.tone === "error" ? "text-red-600" : "text-emerald-600"} />{toast.message}</div>;
+
+  return (
+    <div
+      role="status"
+      className="fixed right-5 top-5 z-70 flex max-w-sm items-center gap-3 rounded-2xl border border-sky-100 bg-white px-4 py-3 text-sm font-semibold text-navy-deep shadow-2xl"
+    >
+      <Icon
+        size={19}
+        className={toast.tone === "error" ? "text-red-600" : "text-emerald-600"}
+      />
+      {toast.message}
+    </div>
+  );
 }

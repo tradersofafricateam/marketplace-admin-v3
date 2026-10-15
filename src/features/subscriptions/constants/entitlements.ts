@@ -1,0 +1,21 @@
+import type { EntitlementDefinition } from "../types";
+export const ENTITLEMENT_DEFINITIONS: EntitlementDefinition[] = [
+  { code: "max_products", label: "Maximum products", group: "Product limits", type: "integer" },
+  { code: "max_images_per_product", label: "Images per product", group: "Product limits", type: "integer" },
+  { code: "max_variants_per_product", label: "Variants per product", group: "Product limits", type: "integer" },
+  { code: "view_buyer_info", label: "View buyer information", group: "Marketplace access", type: "boolean" },
+  { code: "view_seller_info", label: "View seller information", group: "Marketplace access", type: "boolean" },
+  { code: "product_priority", label: "Product priority", group: "Visibility", type: "integer" },
+  { code: "store_priority", label: "Store priority", group: "Visibility", type: "integer" },
+  { code: "featured_product_eligibility", label: "Featured product eligibility", group: "Visibility", type: "boolean" },
+  { code: "max_featured_products", label: "Maximum featured products", group: "Visibility", type: "integer" },
+  { code: "featured_store_eligibility", label: "Featured store eligibility", group: "Visibility", type: "boolean" },
+  { code: "can_view_market_rfqs", label: "View market RFQs", group: "Market RFQ", type: "boolean" },
+  { code: "max_market_rfq_responses", label: "Maximum RFQ responses", group: "Market RFQ", type: "integer" },
+  { code: "market_rfq_priority", label: "Market RFQ priority", group: "Market RFQ", type: "integer" },
+  { code: "analytics_access", label: "Analytics access", group: "Analytics", type: "boolean" },
+  { code: "analytics_level", label: "Analytics level", group: "Analytics", type: "string" },
+  { code: "report_export", label: "Report export", group: "Analytics", type: "boolean" },
+  { code: "transaction_fee_percentage", label: "TOFA transaction fee (%)", group: "Transaction fees", type: "decimal" },
+  { code: "support_level", label: "Support level", group: "Support", type: "string" },
+];

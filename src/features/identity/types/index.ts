@@ -96,31 +96,33 @@ export type RoleActionResponse = {
 export type SellerVerificationStatus = "pending" | "approved" | "rejected";
 
 export type SellerVerificationSummary = {
-  verificationId: string;
-  companyName: string;
-  userId: string;
-  submittedAt: string;
-  status?: SellerVerificationStatus;
-};
-
-export type SellerVerificationDetail = {
-  verificationId?: string;
-  userId?: string;
-  status: SellerVerificationStatus;
-  submittedAt: string;
-  storeName: string;
+  id: string;
   companyName: string;
   registrationNumber: string;
+  userId: string;
+  verificationStatus: SellerVerificationStatus;
+  submittedAt: string;
   businessType: string;
+  country: string;
+  user: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  } | null;
+};
+
+export type SellerVerificationDetail = SellerVerificationSummary & {
   yearsOfBusiness: number;
   companyAddress: string;
   pickupAddress: string;
   companyBio: string;
-  country: string;
-  companyLogo?: string;
+  companyLogo?: string | null;
   reviewedAt?: string | null;
   reviewedBy?: string | null;
   rejectionReason?: string | null;
+  adminNotes?: string | null;
+  updatedAt?: string;
+  reviewer?: unknown;
 };
 
 export type SellerVerificationsQuery = {
@@ -130,9 +132,8 @@ export type SellerVerificationsQuery = {
 };
 
 export type SellerVerificationsResponse = {
-  success: boolean;
   data: SellerVerificationSummary[];
-  pagination: Pagination;
+  meta: Pagination;
 };
 
 export type ApproveSellerPayload = { notes?: string };
