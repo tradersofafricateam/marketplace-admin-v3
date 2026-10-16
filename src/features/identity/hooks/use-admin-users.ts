@@ -16,5 +16,5 @@ function getMockAdminUsers(query: AdminUsersQuery): AdminUsersResponse {
 }
 
 export function useAdminUsers(query: AdminUsersQuery) {
-  return useQuery({ queryKey: ["admin-users", query], queryFn: () => USE_ADMIN_USERS_MOCK ? Promise.resolve(getMockAdminUsers(query)) : getAdminUsers(query), placeholderData: (previous) => previous });
+  return useQuery({ queryKey: ["admin-users", query], queryFn: () => USE_ADMIN_USERS_MOCK ? Promise.resolve(getMockAdminUsers(query)) : getAdminUsers(query) });
 }

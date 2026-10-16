@@ -24,6 +24,5 @@ export function useSellerVerifications(query: SellerVerificationsQuery) {
         },
       };
     },
-    placeholderData: (previous) => previous,
   });
 }

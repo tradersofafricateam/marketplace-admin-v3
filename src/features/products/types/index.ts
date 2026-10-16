@@ -2,7 +2,7 @@ export type SupportedLanguage = "en" | "fr" | "ar" | "sw" | "pt";
 export type TranslationObject = Partial<Record<SupportedLanguage, string>>;
 
 export type ProductType = "simple" | "variable";
-export type ProductStatus = "draft" | "pending_approval" | "active" | "inactive" | "archived" | "deleted";
+export type ProductStatus = "draft" | "pending_approval" | "rejected" | "active" | "inactive" | "archived" | "deleted";
 export type InventoryStatus = "in_stock" | "out_of_stock";
 
 export type ProductImage = {
@@ -97,5 +97,4 @@ export type ProductsResponse = {
   pagination: Pagination;
 };
 
-export type ProductStatusPayload = { status: ProductStatus };
 export type ProductActionResponse = { success: boolean; message: string };

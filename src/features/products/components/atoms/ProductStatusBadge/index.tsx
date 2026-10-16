@@ -12,7 +12,7 @@ export function ProductStatusBadge({ status }: { status: ProductStatus }) {
         status === "draft" && "bg-slate-100 text-slate-600",
         status === "inactive" && "bg-amber-50 text-amber-700",
         status === "archived" && "bg-slate-200 text-slate-700",
-        status === "deleted" && "bg-red-50 text-red-700",
+        (status === "deleted" || status === "rejected") && "bg-red-50 text-red-700",
       )}
     >
       {PRODUCT_STATUS_LABELS[status]}

@@ -58,9 +58,11 @@ export function ProductsTable({ products, onChangeStatus }: Props) {
             <Link href={`/products/${product.id}`} className="block rounded-lg px-3 py-2 hover:bg-slate-50">
               View product
             </Link>
-            <button onClick={() => onChangeStatus(product)} className="block w-full rounded-lg px-3 py-2 text-left hover:bg-slate-50">
-              Change status
-            </button>
+            {product.status !== "rejected" && (
+              <button onClick={() => onChangeStatus(product)} className="block w-full rounded-lg px-3 py-2 text-left hover:bg-slate-50">
+                Review product
+              </button>
+            )}
           </div>
         </details>
       ),

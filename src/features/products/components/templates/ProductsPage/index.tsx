@@ -10,7 +10,9 @@ import { useProducts } from "../../../hooks";
 import type { AdminProduct, ProductStatus, ProductsQuery } from "../../../types";
 import { PRODUCT_STATUS_LABELS, PRODUCT_STATUS_OPTIONS } from "../../../constants";
 import { ProductsPagination } from "../../molecules";
-import { ChangeProductStatusModal, ProductsTable, ProductsTableSkeleton } from "../../organisms";
+import { ChangeProductStatusModal, ProductsTable } from "../../organisms";
+
+import { ProductsPageSkeleton } from "../ProductsPageSkeleton";
 
 function baseQuery(overrides: Partial<ProductsQuery> = {}): ProductsQuery {
   return { search: "", status: "", page: 1, limit: 1, ...overrides };
@@ -36,6 +38,14 @@ export function ProductsPage() {
     const next = new URLSearchParams(searchParams.toString());
     Object.entries(updates).forEach(([key, value]) => (value ? next.set(key, String(value)) : next.delete(key)));
     router.push(`/products?${next.toString()}`);
+  }
+
+  const requests = [products, allProducts, activeProducts, draftProducts];
+  if (requests.some((request) => request.isPending)) return <ProductsPageSkeleton />;
+  if (requests.some((request) => request.isError)) {
+    return <QueryError resource="products" onRetry={() => {
+      requests.forEach((request) => { void request.refetch(); });
+    }} />;
   }
 
   return (
@@ -101,15 +111,7 @@ export function ProductsPage() {
             ))}
           </select>
         </div>
-        {products.isPending ? (
-          <ProductsTableSkeleton />
-        ) : products.isError ? (
-          <div className="p-5">
-            <QueryError resource="products" onRetry={() => { void products.refetch(); }} />
-          </div>
-        ) : (
-          <ProductsTable products={products.data?.data ?? []} onChangeStatus={setStatusTarget} />
-        )}
+        <ProductsTable products={products.data?.data ?? []} onChangeStatus={setStatusTarget} />
         <ProductsPagination
           pagination={products.data?.pagination ?? { page: query.page, limit: query.limit, total: 0, totalPages: 1 }}
           onPageChange={(page) => updateQuery({ page })}

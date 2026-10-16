@@ -28,6 +28,5 @@ export function useProducts(query: ProductsQuery) {
         },
       };
     },
-    placeholderData: (previous) => previous,
   });
 }
