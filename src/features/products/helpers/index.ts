@@ -1,5 +1,5 @@
-import { PRODUCT_STATUS_TRANSITIONS, SUPPORTED_LANGUAGES } from "../constants";
-import type { ProductStatus, SupportedLanguage, TranslationObject } from "../types";
+import { SUPPORTED_LANGUAGES } from "../constants";
+import type { SupportedLanguage, TranslationObject } from "../types";
 
 export function localizedText(value: TranslationObject | undefined, locale: SupportedLanguage = "en") {
   if (!value) return "";
@@ -28,8 +28,4 @@ export function calculateFinalPrice(price: number | null, discount: number | nul
   if (price === null) return null;
   if (!discount) return price;
   return price - (price * discount) / 100;
-}
-
-export function getAvailableStatusTransitions(status: ProductStatus): ProductStatus[] {
-  return PRODUCT_STATUS_TRANSITIONS[status] ?? [];
 }

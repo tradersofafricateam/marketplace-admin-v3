@@ -1,5 +1,6 @@
 "use client";
 
+import { RichText } from "@/components/atoms/RichText";
 import { CopyableId } from "@/components/atoms/CopyableId";
 
 import { useState } from "react";
@@ -42,10 +43,12 @@ export function ProductDetails({ productId }: { productId: string }) {
       </Link>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <SectionTitle eyebrow="Commerce" title={localizedText(product.productName)} description="Listing details, variants, and moderation status." />
-        <button onClick={() => setStatusOpen(true)} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl bg-navy px-4 text-sm font-semibold text-white hover:bg-navy-deep">
-          <Pencil size={16} />
-          Change status
-        </button>
+        {product.status !== "rejected" && (
+          <button onClick={() => setStatusOpen(true)} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl bg-navy px-4 text-sm font-semibold text-white hover:bg-navy-deep">
+            <Pencil size={16} />
+            Review product
+          </button>
+        )}
       </div>
 
       <section className="grid gap-5 xl:grid-cols-[0.85fr_1.4fr]">
@@ -130,7 +133,7 @@ export function ProductDetails({ productId }: { productId: string }) {
               <h2 className="font-bold text-navy-deep">Description</h2>
               <TranslationCoverage value={product.productDescription} />
             </div>
-            <p className="mt-3 text-sm text-slate-600">{localizedText(product.productDescription)}</p>
+            <RichText value={localizedText(product.productDescription)} emptyMessage="No product description provided." />
             <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Name translations</p>
               <TranslationCoverage value={product.productName} />

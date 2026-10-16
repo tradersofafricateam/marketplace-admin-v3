@@ -1,34 +1,24 @@
 import type { AdminProduct, ProductStatus, SupportedLanguage } from "../types";
 
 export const PRODUCTS_ENDPOINT = "/admin/products";
-export const PRODUCT_STATUS_ENDPOINT = "/products";
 export const USE_PRODUCTS_MOCK = false;
 export const PRODUCT_PAGE_LIMITS = [10, 20, 50] as const;
 
 export const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {
   draft: "Draft",
   pending_approval: "Pending approval",
+  rejected: "Rejected",
   active: "Active",
   inactive: "Inactive",
   archived: "Archived",
   deleted: "Deleted",
 };
 
-export const PRODUCT_STATUS_OPTIONS: ProductStatus[] = ["draft", "pending_approval", "active", "inactive", "archived", "deleted"];
+export const PRODUCT_STATUS_OPTIONS: ProductStatus[] = ["draft", "pending_approval", "rejected", "active", "inactive", "archived", "deleted"];
 
 export const INVENTORY_STATUS_LABELS: Record<"in_stock" | "out_of_stock", string> = {
   in_stock: "In stock",
   out_of_stock: "Out of stock",
-};
-
-/** Submissions enter pending approval before an admin activates them. */
-export const PRODUCT_STATUS_TRANSITIONS: Record<ProductStatus, ProductStatus[]> = {
-  draft: ["pending_approval"],
-  pending_approval: ["active", "draft"],
-  active: ["inactive", "archived"],
-  inactive: ["active", "archived"],
-  archived: ["deleted"],
-  deleted: [],
 };
 
 export const SUPPORTED_LANGUAGES: { code: SupportedLanguage; label: string }[] = [
